@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class LeaderboardHeader extends React.Component {
   render() {
@@ -61,6 +60,4 @@ class Leaderboard extends React.Component {
   }
 }
 
-if (document.getElementById('leaderboard')) {
-  ReactDOM.render(<Leaderboard />, document.getElementById('leaderboard'));
-}
+export default Leaderboard;

@@ -3,8 +3,9 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: {
-        a: path.resolve(__dirname, "./leaderboard/script.js"),
-        b: path.resolve(__dirname, "./hello/script.js"),
+        a: path.resolve(__dirname, "./routes.js")
+        // a: path.resolve(__dirname, "./leaderboard/script.js"),
+        // b: path.resolve(__dirname, "./hello/script.js"),
     },
     output: {
         path: path.resolve(__dirname, './'),
