@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "React projects",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline"
+    "start": "webpack-dev-server --progress --inline"
   },
   "author": "Eric Otto",
   "license": "MIT",
