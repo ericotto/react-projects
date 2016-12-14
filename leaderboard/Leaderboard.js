@@ -1,18 +1,9 @@
 import React from 'react';
 
-class LeaderboardHeader extends React.Component {
-  render() {
-    return <thead>
-      <th>Username</th>
-      <th>30 Day Score</th>
-      <th>All Time Score</th>
-    </thead>;
-  }
-}
-
 class User extends React.Component {
   render() {
-    return <tr>
+    return <tr class="leaderboard-row">
+      <td>{this.props.i}</td>
       <td>
         <img src={this.props.user.img} 
           width="50"
@@ -30,7 +21,37 @@ class Leaderboard extends React.Component {
   constructor() {
     super();
     this.state = {
-      users: []
+      users: [],
+      sort30Day: true,
+      sortAllTime: false
+    }
+  }
+
+  sort30Day(event) {
+    if (!this.state.sort30Day) {
+      let thirtyDay = this.state.users.slice(0)
+      thirtyDay.sort( function(a, b) {
+        return b.recent - a.recent;
+      })
+      this.setState({
+        users: thirtyDay,
+        sort30Day: true,
+        sortAllTime: false
+      })
+    }
+  }
+
+  sortAllTime(event) {
+    if (!this.state.sortAllTime) {
+      let allTime = this.state.users.slice(0)
+      allTime.sort( function(a, b) {
+        return b.alltime - a.alltime;
+      })
+      this.setState({
+        users: allTime,
+        sort30Day: false,
+        sortAllTime: true
+      })
     }
   }
   
@@ -48,11 +69,18 @@ class Leaderboard extends React.Component {
   render() {
     return <div>
       <div className="page-header"><h1>Leaderboard</h1></div>
-      <table className="table table-striped">
-        <LeaderboardHeader />
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>User</th>
+            <th onClick={this.sort30Day.bind(this)}>30 Day Score { this.state.sort30Day ? '▼' : '' }</th>
+            <th onClick={this.sortAllTime.bind(this)}>All Time Score { this.state.sortAllTime ? '▼' : '' }</th>
+          </tr>
+        </thead>
         <tbody>
-        { this.state.users.map(function(user) {
-            return <User user={user} />;
+        { this.state.users.map(function(user, i) {
+            return <User user={user} key={i} i={i + 1}/>;
         })}
         </tbody>
       </table>
