@@ -10,10 +10,10 @@ class Schelling extends React.Component {
       converged: false,
       width: 70,
       height: 30,
-      typeOne: 0.45,
-      typeTwo: 0.45,
-      open: 0.1,
-      threshold: 0.51,
+      typeOne: 0.5,
+      typeTwo: 0.5,
+      open: 0.2,
+      threshold: 0.6,
       grid: [],
       openList: []
     }
