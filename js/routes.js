@@ -3,6 +3,8 @@ import Markdown from '../markdown/Markdown';
 import Leaderboard from '../leaderboard/Leaderboard';
 import Recipes from '../recipes/Recipe';
 import Schelling from '../schelling/Schelling';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 class App extends ReactHabitat.Bootstrapper {
     constructor() {
