@@ -17,6 +17,9 @@ class Schelling extends React.Component {
       grid: [],
       openList: []
     }
+    this.pause = this.pause.bind(this)
+    this.reset = this.reset.bind(this)
+    this.start = this.start.bind(this)
     this.getGrid = this.getGrid.bind(this)
     this.satisfied = this.satisfied.bind(this)
     this.tickSimulation = this.tickSimulation.bind(this)
@@ -31,6 +34,26 @@ class Schelling extends React.Component {
 
   componentDidMount() {
     this.runSimulation()
+  }
+
+  start() {
+    this.setState({
+      paused: false
+    })
+    this.runSimulation()
+  }
+
+  pause() {
+    this.setState({
+      paused: true
+    })
+  }
+
+  reset() {
+    this.getGrid()
+    this.setState({
+      paused: true
+    })
   }
 
   getGrid() {
@@ -66,7 +89,9 @@ class Schelling extends React.Component {
     }
     this.setState({
       grid: grid,
-      openList: openList
+      openList: openList,
+      converged: false,
+      iterations: 0
     });
   }
 
@@ -76,7 +101,7 @@ class Schelling extends React.Component {
       if (this.state.converged || this.state.paused) {
         clearInterval(simulation)
       }
-    }, 500);
+    }, 1000);
   }
 
   tickSimulation() {
@@ -164,7 +189,7 @@ class Schelling extends React.Component {
 
   render() {
     return  (
-      <div>
+      <div className="wrapper">
         <table>
         <tbody>
         { this.state.grid.map( (row, i) => {
@@ -178,7 +203,14 @@ class Schelling extends React.Component {
         }) }
         </tbody>
         </table>
-        <p>Generations: { this.state.iterations }</p>
+        <div className="text-center control-panel">
+        { this.state.paused ?
+          <button className="btn btn-primary" onTouchTap={this.start}>Start</button> :
+          <button className="btn" onTouchTap={this.pause}>Pause</button>
+        }
+        <button className="btn btn-danger" onTouchTap={this.reset}>Reset</button>
+        <h4>Generations: { this.state.iterations }</h4>
+        </div>
       </div>
     )
   }

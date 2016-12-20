@@ -1,10 +1,23 @@
+.wrapper {
+  margin: 20px auto 0px auto;
+  padding: 40px;
+  border: 1px solid black;
+  height: 500px;
+  width: 700px;
+  background-color: gray;
+}
+
+.control-panel > button {
+  margin: 10px 5px 10px 5px;
+}
+
 td {
   height: 10px;
   width: 10px;
 }
 
 .open {
-  background-color: white;
+  background-color: paleturquoise;
 }
 
 .typeOne {
@@ -12,5 +25,5 @@ td {
 }
 
 .typeTwo {
-  background-color: dimGray;
+  background-color: green;
 }
