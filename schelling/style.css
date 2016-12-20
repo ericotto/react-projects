@@ -2,13 +2,19 @@
   margin: 20px auto 0px auto;
   padding: 40px;
   border: 1px solid black;
-  height: 500px;
+  height: 620px;
   width: 700px;
   background-color: gray;
 }
 
 .control-panel > button {
   margin: 10px 5px 10px 5px;
+}
+
+.sliders {
+  width: 300px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 td {

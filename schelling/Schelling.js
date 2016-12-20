@@ -10,9 +10,9 @@ class Schelling extends React.Component {
       converged: false,
       width: 70,
       height: 30,
-      typeOne: 40,
-      typeTwo: 40,
-      open: 20,
+      typeOne: 0.45,
+      typeTwo: 0.45,
+      open: 0.1,
       threshold: 0.51,
       grid: [],
       openList: []
@@ -20,6 +20,7 @@ class Schelling extends React.Component {
     this.pause = this.pause.bind(this)
     this.reset = this.reset.bind(this)
     this.start = this.start.bind(this)
+    this.sliders = this.sliders.bind(this)
     this.getGrid = this.getGrid.bind(this)
     this.satisfied = this.satisfied.bind(this)
     this.tickSimulation = this.tickSimulation.bind(this)
@@ -56,18 +57,45 @@ class Schelling extends React.Component {
     })
   }
 
+  sliders(event) {
+    const value = parseFloat(event.target.value).toFixed(2);
+    const id = event.target.id;
+    if (id === 'open') {
+      this.setState({
+        open: value,
+      })
+      setTimeout(this.reset(), 1000);
+    } else if (id === 'typeOne') {
+        this.setState({
+          typeOne: value,
+          typeTwo: 1 - value
+        })
+        setTimeout(this.reset(), 1000);
+    } else if (id === 'typeTwo') {
+        this.setState({
+          typeOne: 1 - value,
+          typeTwo: value
+        })
+        setTimeout(this.reset(), 1000);
+    } else if (id === 'threshold') {
+      this.setState({
+        threshold: value
+      })
+    }
+  }
+
   getGrid() {
     let grid = []
     let probDist = []
     let openList = []
     // Construct Probability Distribution
-    for (var i = 0; i < this.state.typeOne; i++) {
+    for (var i = 0; i < (this.state.typeOne * 100); i++) {
       probDist.push('typeOne');
     }
-    for (var i = 0; i < this.state.typeTwo; i++) {
+    for (var i = 0; i < (this.state.typeTwo * 100); i++) {
       probDist.push('typeTwo');
     }
-    for (var i = 0; i < this.state.open; i++) {
+    for (var i = 0; i < (this.state.open * 100); i++) {
       probDist.push('open');
     }
     // Construct Grid 
@@ -108,9 +136,8 @@ class Schelling extends React.Component {
     var iterations = this.state.iterations;
     var grid = this.state.grid;
     var openList = this.state.openList;
-    var converged;
+    var converged = true;
     for(var i = 0; i < this.state.height; i++) {
-      converged = true;
       for(var j = 0; j < this.state.width; j++) {
         let cell = grid[i][j];
         if (!(cell.type === 'open')) {
@@ -188,6 +215,10 @@ class Schelling extends React.Component {
   }
 
   render() {
+    let open = this.state.open;
+    let typeOne = this.state.typeOne;
+    let typeTwo = this.state.typeTwo;
+    let threshold = this.state.threshold;
     return  (
       <div className="wrapper">
         <table>
@@ -204,12 +235,24 @@ class Schelling extends React.Component {
         </tbody>
         </table>
         <div className="text-center control-panel">
-        { this.state.paused ?
-          <button className="btn btn-primary" onTouchTap={this.start}>Start</button> :
-          <button className="btn" onTouchTap={this.pause}>Pause</button>
-        }
-        <button className="btn btn-danger" onTouchTap={this.reset}>Reset</button>
-        <h4>Generations: { this.state.iterations }</h4>
+          { this.state.paused ?
+            <button className="btn btn-primary" onTouchTap={this.start}>Start</button> :
+            <button className="btn" onTouchTap={this.pause}>Pause</button>
+          }
+          <button className="btn btn-danger" onTouchTap={this.reset}>Reset</button>
+          <h4>Rounds: { this.state.iterations }</h4>
+          <div className="sliders">
+            <div>
+            <input id="open" type="range" step="0.01" value={open} min={0.05} max={0.95} onChange={this.sliders}/>
+            <strong>Open:</strong> {parseFloat(open * 100).toFixed()}%
+            </div>
+            <input id="typeOne" type="range" step="0.01" value={typeOne}  min={0.05} max={0.95} onChange={this.sliders}/>
+            <strong>TypeOne:</strong> {parseFloat(typeOne * 100).toFixed()}% 
+            <input id="typeTwo" type="range" step="0.01" value={typeTwo}  min={0.05} max={0.95} onChange={this.sliders}/>
+            <strong>TypeTwo:</strong> {parseFloat(typeTwo * 100).toFixed()}%
+            <input id="threshold" type="range" step="0.01" value={threshold}  max="1" onChange={this.sliders}/>
+            <strong>Threshold:</strong> {parseFloat(threshold * 100).toFixed()}%
+          </div>
         </div>
       </div>
     )
